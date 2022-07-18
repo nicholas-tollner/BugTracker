@@ -9,6 +9,8 @@
 #include <gtkmm/frame.h>
 #include <gtkmm/button.h>
 #include <gtkmm/label.h>
+#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/textview.h>
 
 class BugReportBox : public Gtk::Box {
 public:
@@ -16,9 +18,10 @@ public:
     virtual ~BugReportBox();
 private:
     Gtk::Box v_box, h_box1, h_box2;
-    Gtk::Frame detailsFrame, screenshotFrame;
-    Gtk::Button closeButton, solveButton;
-    Gtk::Label idLabel;
+    Gtk::Frame detailsFrame;
+    Gtk::Button closeButton, solveButton, saveButton;
+    Gtk::ScrolledWindow scrollPane;
+    Gtk::TextView textView;
 };
 
 

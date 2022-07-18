@@ -8,6 +8,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+#include <gtkmm.h>
 #include "MainBox.h"
 
 class MainWindow : public Gtk::Window {
@@ -18,6 +19,15 @@ public:
 private:
     // Child widgets
     MainBox mainBox;
+    Gtk::Box m_box;
+
+    // Signal handlers
+    void on_action_file_import();
+    void on_action_file_save();
+
+    // Menubar
+    Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
 };
 
 

@@ -8,7 +8,6 @@
 #include <iostream>
 #include <gtkmm/frame.h>
 #include <gtkmm/box.h>
-#include "TopBox.h"
 #include "BugListFrame.h"
 #include "BugReportFrame.h"
 
@@ -20,7 +19,6 @@ public:
 private:
     BugListFrame bugListFrame;
     BugReportFrame bugReportFrame;
-    TopBox topBox;
 };
 
 #endif //WINDOWS_GUI_APPLICATION_MAINBOX_H

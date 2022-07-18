@@ -6,6 +6,10 @@
 #define WINDOWS_GUI_APPLICATION_BUGLISTFRAME_H
 
 #include <gtkmm/frame.h>
+#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/treeview.h>
+#include <gtkmm/treemodel.h>
+#include <gtkmm/listviewtext.h>
 
 class BugListFrame : public Gtk::Frame {
 public:
@@ -13,8 +17,8 @@ public:
     virtual ~BugListFrame();
 
 private:
-    // scroll pane
-
+    Gtk::ScrolledWindow scrollPane;
+    Gtk::ListViewText listView;
 };
 
 

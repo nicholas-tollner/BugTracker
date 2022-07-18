@@ -11,7 +11,6 @@ MainBox::MainBox(bool homogenous, int spacing, Gtk::PackOptions options, int pad
     set_homogeneous(homogenous);
 
     // Add widgets
-    add(topBox);
     add(bugListFrame);
     add(bugReportFrame);
 

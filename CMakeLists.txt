@@ -7,12 +7,11 @@ set(SOURCE
         src/main.cpp
         src/BugList.cpp
         src/BugReport.cpp
-        src/MainWindow.cpp
-        src/MainBox.cpp
-        src/TopBox.cpp
-        src/BugListFrame.cpp
-        src/BugReportFrame.cpp
-        src/BugReportBox.cpp)
+        src/GUI/MainWindow.cpp
+        src/GUI/MainBox.cpp
+        src/GUI/BugListFrame.cpp
+        src/GUI/BugReportFrame.cpp
+        src/GUI/BugReportBox.cpp)
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
