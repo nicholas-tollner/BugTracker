@@ -8,19 +8,16 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
+#include "MainBox.h"
 
 class MainWindow : public Gtk::Window {
 public:
     MainWindow();
-    ~MainWindow() override;
-
+    virtual ~MainWindow();
 
 private:
     // Child widgets
-    Gtk::Box m_box1;
-    Gtk::Button m_button1, m_button2;
-
-    void on_button_clicked();
+    MainBox mainBox;
 };
 
 

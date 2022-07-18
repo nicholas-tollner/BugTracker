@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     auto app = Gtk::Application::create(argc, argv);
 
     MainWindow mainWindow;
-    mainWindow.set_default_size(600, 400);
+    mainWindow.set_default_size(1200, 800);
 
     // Widgets (Buttons, text boxes etc .. ) are contained within windows
     // Widgets are arranged inside container widgets (frames, notebooks)

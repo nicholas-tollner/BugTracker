@@ -8,7 +8,11 @@ set(SOURCE
         src/BugList.cpp
         src/BugReport.cpp
         src/MainWindow.cpp
-        )
+        src/MainBox.cpp
+        src/TopBox.cpp
+        src/BugListFrame.cpp
+        src/BugReportFrame.cpp
+        src/BugReportBox.cpp)
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
@@ -16,5 +20,5 @@ pkg_check_modules(GTKMM gtkmm-3.0)
 include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
-add_executable(${CMAKE_PROJECT_NAME} WIN32 ${SOURCE})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCE})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${GTKMM_LIBRARIES})
