@@ -73,12 +73,84 @@ MainWindow::~MainWindow()
 
 }
 
+/**
+ * Invoked when user selects import from file menu
+ * Handles creation and response of file chooser
+ */
 void MainWindow::on_action_file_import()
 {
+    std::cout << "Import pressed!" << std::endl;
+    Gtk::FileChooserDialog dialog("Import", Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);    // Allows window manager to center dialog over main window
 
+    // Add response buttons
+    dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+    dialog.add_button("Import", Gtk::RESPONSE_OK);
+
+    // Filter for text files
+    auto filter_text = Gtk::FileFilter::create();
+    filter_text->set_name("Text Files");
+    filter_text->add_mime_type("text/plain");
+    dialog.add_filter(filter_text);
+
+    // Handle dialog response from user
+    int result = dialog.run();
+    switch (result)
+    {
+        case (Gtk::RESPONSE_OK):
+        {
+            std::cout << "Select clicked" << "\n";
+            std::cout << "File selected: " << dialog.get_filename() << std::endl;
+
+            // TODO Parse file and update bugList
+
+            break;
+        }
+
+        case (Gtk::RESPONSE_CANCEL):
+        {
+            std::cout << "Cancel clicked" << std::endl;
+            break;
+        }
+
+        default:
+            std::cout << "Something unexpected happened!" << std::endl;
+            break;
+    }
 }
 
 void MainWindow::on_action_file_save()
 {
+    std::cout << "Save pressed!" << std::endl;
+    Gtk::FileChooserDialog dialog("Save", Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);    // Allows window manager to center dialog over main window
 
+    // Add response buttons
+    dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
+    dialog.add_button("Save", Gtk::RESPONSE_OK);
+
+    // Handle dialog response from user
+    int result = dialog.run();
+    switch (result)
+    {
+        case (Gtk::RESPONSE_OK):
+        {
+            std::cout << "Save clicked" << "\n";
+            std::cout << "File selected: " << dialog.get_filename() << std::endl;
+
+            // TODO Implement saving of files
+
+            break;
+        }
+
+        case (Gtk::RESPONSE_CANCEL):
+        {
+            std::cout << "Cancel clicked" << std::endl;
+            break;
+        }
+
+        default:
+            std::cout << "Something unexpected happened!" << std::endl;
+            break;
+    }
 }

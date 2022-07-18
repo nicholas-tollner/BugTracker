@@ -17,7 +17,7 @@ public:
     BugReportBox();
     virtual ~BugReportBox();
 private:
-    Gtk::Box v_box, h_box1, h_box2;
+    Gtk::Box v_box, h_box1;
     Gtk::Frame detailsFrame;
     Gtk::Button closeButton, solveButton, saveButton;
     Gtk::ScrolledWindow scrollPane;

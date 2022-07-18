@@ -45,7 +45,6 @@ BugReportBox::BugReportBox() : closeButton("Mark Closed"), solveButton("Mark Sol
     detailsFrame.add(scrollPane);
 
     v_box.add(h_box1);
-    v_box.add(h_box2);
 
     add(v_box);
     add(detailsFrame);
