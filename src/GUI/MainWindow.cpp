@@ -2,6 +2,7 @@
 // Created by Nickt on 17/07/2022.
 //
 
+#include <fstream>
 #include "MainWindow.h"
 
 MainWindow::MainWindow() : mainBox(false, 5, Gtk::PACK_SHRINK, 0)
@@ -122,8 +123,10 @@ void MainWindow::on_action_file_import()
 void MainWindow::on_action_file_save()
 {
     std::cout << "Save pressed!" << std::endl;
-    Gtk::FileChooserDialog dialog("Save", Gtk::FILE_CHOOSER_ACTION_OPEN);
+    Gtk::FileChooserDialog dialog("Save", Gtk::FILE_CHOOSER_ACTION_SAVE);
     dialog.set_transient_for(*this);    // Allows window manager to center dialog over main window
+
+    dialog.set_do_overwrite_confirmation(true);
 
     // Add response buttons
     dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
@@ -138,7 +141,19 @@ void MainWindow::on_action_file_save()
             std::cout << "Save clicked" << "\n";
             std::cout << "File selected: " << dialog.get_filename() << std::endl;
 
+            std::string filename = dialog.get_filename();
+
+            // Append .txt extension to filename if it does not already exist
+            if (filename.size() < 4 || filename.substr(filename.size() - 4, std::string::npos) != ".txt")
+            {
+                filename += ".txt";
+            }
+
+            std::ofstream ofile(filename);
+
             // TODO Implement saving of files
+            // Write text to buffer
+            // Write buffer to file
 
             break;
         }
