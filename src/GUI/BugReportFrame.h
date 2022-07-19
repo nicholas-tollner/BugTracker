@@ -13,6 +13,8 @@ public:
     BugReportFrame();
     virtual ~BugReportFrame();
 
+    BugReportBox& getBugReportBox();
+
 private:
     BugReportBox bugReportBox;
 };

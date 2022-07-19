@@ -22,3 +22,8 @@ BugReportFrame::~BugReportFrame()
 {
 
 }
+
+BugReportBox& BugReportFrame::getBugReportBox()
+{
+    return bugReportBox;
+}

@@ -16,6 +16,8 @@ public:
     MainBox(bool homogenous, int spacing, Gtk::PackOptions options, int padding = 0);
     virtual ~MainBox();
 
+    BugReportFrame& getBugReportFrame();
+
 private:
     BugListFrame bugListFrame;
     BugReportFrame bugReportFrame;

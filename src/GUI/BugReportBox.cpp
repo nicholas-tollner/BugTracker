@@ -54,3 +54,8 @@ BugReportBox::~BugReportBox()
 {
 
 }
+
+Glib::RefPtr<Gtk::TextBuffer> BugReportBox::getDetails()
+{
+    return textView.get_buffer();
+}

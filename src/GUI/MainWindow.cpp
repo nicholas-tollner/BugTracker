@@ -105,6 +105,11 @@ void MainWindow::on_action_file_import()
 
             // TODO Parse file and update bugList
 
+            std::ifstream infile(dialog.get_filename());
+
+
+            infile.close();
+
             break;
         }
 
@@ -120,6 +125,13 @@ void MainWindow::on_action_file_import()
     }
 }
 
+/**
+ * Invoked when user selects save from file menu
+ * Handles creation and response of file chooser
+ *
+ * Allows user to save file
+ * Provides user with confirmation window when attempting to overwrite a file
+ */
 void MainWindow::on_action_file_save()
 {
     std::cout << "Save pressed!" << std::endl;
@@ -149,11 +161,10 @@ void MainWindow::on_action_file_save()
                 filename += ".txt";
             }
 
+            // Open file and write contents of text view
             std::ofstream ofile(filename);
-
-            // TODO Implement saving of files
-            // Write text to buffer
-            // Write buffer to file
+            ofile << get_report() << std::endl;
+            ofile.close();
 
             break;
         }
@@ -168,4 +179,10 @@ void MainWindow::on_action_file_save()
             std::cout << "Something unexpected happened!" << std::endl;
             break;
     }
+}
+
+// Accesses the text within the Gtk::TextBuffer used by the text view
+std::string MainWindow::get_report()
+{
+    return mainBox.getBugReportFrame().getBugReportBox().getDetails()->get_text();
 }

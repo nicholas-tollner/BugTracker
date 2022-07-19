@@ -24,6 +24,7 @@ private:
     // Signal handlers
     void on_action_file_import();
     void on_action_file_save();
+    std::string  get_report();
 
     // Menubar
     Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;

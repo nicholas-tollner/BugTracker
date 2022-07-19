@@ -11,11 +11,15 @@
 #include <gtkmm/label.h>
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/textview.h>
+#include <gtkmm/textbuffer.h>
 
 class BugReportBox : public Gtk::Box {
 public:
     BugReportBox();
     virtual ~BugReportBox();
+
+    Glib::RefPtr<Gtk::TextBuffer> getDetails();
+
 private:
     Gtk::Box v_box, h_box1;
     Gtk::Frame detailsFrame;
