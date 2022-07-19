@@ -20,6 +20,8 @@ public:
     MainWindow();
     virtual ~MainWindow();
 
+    void on_selection_changed();
+
 private:
     // Child widgets
     MainBox mainBox;
@@ -29,11 +31,14 @@ private:
     void on_action_file_import();
     void on_action_file_save();
     Glib::RefPtr<Gtk::TextBuffer> get_report();
-//    Glib::ustring get_list();
+    Gtk::TreeModel::Row row;
+    Glib::RefPtr<Gtk::ListStore> refListStore;
 
     // Menubar
     Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
+
+    void updateList(std::ifstream& file);
 };
 
 

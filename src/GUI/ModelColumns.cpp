@@ -9,6 +9,7 @@ ModelColumns::ModelColumns()
     add(id);
     add(title);
     add(mark);
+    add(text);
 }
 
 ModelColumns::~ModelColumns()

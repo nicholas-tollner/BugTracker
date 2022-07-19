@@ -2,7 +2,9 @@
 // Created by Nickt on 18/07/2022.
 //
 
+#include <iostream>
 #include "BugListFrame.h"
+#include "MainWindow.h"
 
 BugListFrame::BugListFrame()
 {
@@ -16,7 +18,7 @@ BugListFrame::BugListFrame()
 
     // Setup Scroll Pane
     setupListView();
-
+    treeView.set_grid_lines(Gtk::TREE_VIEW_GRID_LINES_HORIZONTAL);
     scrollPane.set_size_request(-1, 300);
     scrollPane.set_margin_top(10);
     scrollPane.set_margin_bottom(10);
@@ -24,7 +26,6 @@ BugListFrame::BugListFrame()
     scrollPane.set_margin_right(10);
     scrollPane.add(treeView);
     add(scrollPane);
-
 }
 
 BugListFrame::~BugListFrame()
@@ -32,36 +33,45 @@ BugListFrame::~BugListFrame()
 
 }
 
-Gtk::TreeView& BugListFrame::getTree()
-{
-    return treeView;
-}
-
 void BugListFrame::setupListView()
 {
-    Glib::RefPtr<Gtk::ListStore> refListStore = Gtk::ListStore::create(m_Columns);
+    refListStore = Gtk::ListStore::create(m_Columns);
 
     treeView.set_model(refListStore);
     treeView.append_column("ID", m_Columns.id);
     treeView.append_column("Title", m_Columns.title);
-    treeView.append_column("Mark", m_Columns.mark);
+    int col_count = treeView.append_column("Mark", m_Columns.mark);
 
-    Gtk::TreeModel::Row row = *(refListStore->append());
-
-    row[m_Columns.id] = "0001";
-    row[m_Columns.title] = "Test Bug";
-    row[m_Columns.mark] = "Open";
-
-    row = *(refListStore->append());
-    row[m_Columns.id] = "0002";
-    row[m_Columns.title] = "Bad Bug";
-    row[m_Columns.mark] = "Solved";
-
-    row = *(refListStore->append());
-    row[m_Columns.id] = "0003";
-    row[m_Columns.title] = "Horrible Bug";
-    row[m_Columns.mark] = "Closed";
+    // Expand columns to take up available space
+    for (int i = 0; i < col_count; i++)
+    {
+        treeView.get_column(i)->set_expand(true);
+    }
 }
+
+Glib::RefPtr<Gtk::ListStore> BugListFrame::get_list_store()
+{
+    return refListStore;
+}
+
+ModelColumns& BugListFrame::get_m_columns()
+{
+    return m_Columns;
+}
+
+Gtk::TreeView& BugListFrame::get_tree_view()
+{
+    return treeView;
+}
+
+// Clears List Store
+void BugListFrame::clear_list()
+{
+    treeView.collapse_all();
+    refListStore.reset();
+    refListStore = Gtk::ListStore::create(m_Columns);
+}
+
 
 
 

@@ -29,6 +29,7 @@ BugReportBox::BugReportBox() : closeButton("Mark Closed"), solveButton("Mark Sol
 
     textView.set_wrap_mode(Gtk::WRAP_WORD_CHAR);
 
+
     // Setup v_box, h_box1, h_box2
     v_box.set_orientation(Gtk::ORIENTATION_VERTICAL);
     v_box.set_margin_left(10);

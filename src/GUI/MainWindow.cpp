@@ -66,6 +66,10 @@ MainWindow::MainWindow() : mainBox(false, 5, Gtk::PACK_SHRINK, 0)
     m_box.add(mainBox);
     add(m_box);
 
+    // Attach signal to selection
+    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
+    refTreeSelection->signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_selection_changed));
+
     show_all_children();
 }
 
@@ -103,19 +107,9 @@ void MainWindow::on_action_file_import()
             std::cout << "Select clicked" << "\n";
             std::cout << "File selected: " << dialog.get_filename() << std::endl;
 
-            // TODO Parse file and update bugList
-
             std::ifstream infile(dialog.get_filename());
-            std::string line;
 
-            // Clear Gtk::TextBuffer then write to buffer
-            get_report()->erase(get_report()->begin(), get_report()->end());
-            auto itr = get_report()->begin();
-
-            while(std::getline(infile, line))
-            {
-                itr = get_report()->insert(itr, line + "\n");
-            }
+            updateList(infile);
 
             infile.close();
             break;
@@ -196,13 +190,89 @@ Glib::RefPtr<Gtk::TextBuffer> MainWindow::get_report()
     return mainBox.getBugReportFrame().getBugReportBox().getDetails();
 }
 
-//Glib::ustring MainWindow::get_list()
-//{
-//    std::vector<std::string> rows;
-//
-//    mainBox.getBugListFrame().getList():
-////    while (mainBox)
-////    rows.push_back(mainBox.getBugListFrame().getList().get_
-//
-//    return void;
-//}
+void MainWindow::updateList(std::ifstream& file)
+{
+    if (row != nullptr)
+    {
+        mainBox.getBugListFrame().clear_list();
+    }
+
+    refListStore = mainBox.getBugListFrame().get_list_store();
+    ModelColumns& m_Columns = mainBox.getBugListFrame().get_m_columns();
+
+    // Parse file and populate fields
+    std::string line;
+    std::string report;
+    int count = 0;
+
+    while(std::getline(file, line))
+    {
+        if (line == "##" || line == "==")
+        {
+            if (count == 4)
+            {
+                row[m_Columns.text] = report;
+                report.clear();
+                count = 0;
+            }
+
+            if (line == "==")
+            {
+                break;
+            }
+
+            row = *(refListStore->append());
+            count++;
+            continue;
+        }
+
+        switch (count)
+        {
+            case 1:
+            {
+                row[m_Columns.id] = line;
+                count++;
+                break;
+            }
+
+            case 2:
+            {
+                row[m_Columns.title] = line;
+                count++;
+                break;
+            }
+
+            case 3:
+            {
+                row[m_Columns.mark] = line;
+                count++;
+                break;
+            }
+
+            case 4:
+            {
+                report += line;
+                break;
+            }
+
+            default:
+                break;
+        }
+    }
+}
+
+/**
+ * Handles updating of textView using text contained in m_Columns.text
+ */
+void MainWindow::on_selection_changed()
+{
+    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
+    ModelColumns& m_Columns = mainBox.getBugListFrame().get_m_columns();
+    Gtk::TreeModel::Row row = *(refTreeSelection->get_selected());
+
+    // Clear Gtk::TextBuffer then write to buffer
+    get_report()->erase(get_report()->begin(), get_report()->end());
+
+    auto itr = get_report()->begin();
+    get_report()->insert(itr, row.get_value(m_Columns.text));
+}

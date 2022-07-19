@@ -15,6 +15,7 @@ public:
     Gtk::TreeModelColumn<Glib::ustring> id;
     Gtk::TreeModelColumn<Glib::ustring> title;
     Gtk::TreeModelColumn<Glib::ustring> mark;
+    Gtk::TreeModelColumn<Glib::ustring> text;
 };
 
 
