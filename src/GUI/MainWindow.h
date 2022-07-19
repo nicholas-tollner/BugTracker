@@ -8,7 +8,11 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
-#include <gtkmm.h>
+#include <giomm/simpleactiongroup.h>
+#include <gtkmm/builder.h>
+#include <gtkmm/menubar.h>
+#include <gtkmm/dialog.h>
+#include <gtkmm/filechooserdialog.h>
 #include "MainBox.h"
 
 class MainWindow : public Gtk::Window {
@@ -24,7 +28,7 @@ private:
     // Signal handlers
     void on_action_file_import();
     void on_action_file_save();
-    std::string  get_report();
+    Glib::RefPtr<Gtk::TextBuffer> get_report();
 
     // Menubar
     Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;

@@ -106,10 +106,18 @@ void MainWindow::on_action_file_import()
             // TODO Parse file and update bugList
 
             std::ifstream infile(dialog.get_filename());
+            std::string line;
 
+            // Clear Gtk::TextBuffer then write to buffer
+            get_report()->erase(get_report()->begin(), get_report()->end());
+            auto itr = get_report()->begin();
+
+            while(std::getline(infile, line))
+            {
+                itr = get_report()->insert(itr, line + "\n");
+            }
 
             infile.close();
-
             break;
         }
 
@@ -138,6 +146,7 @@ void MainWindow::on_action_file_save()
     Gtk::FileChooserDialog dialog("Save", Gtk::FILE_CHOOSER_ACTION_SAVE);
     dialog.set_transient_for(*this);    // Allows window manager to center dialog over main window
 
+    // Enable confirmation dialog for file overwriting
     dialog.set_do_overwrite_confirmation(true);
 
     // Add response buttons
@@ -163,7 +172,7 @@ void MainWindow::on_action_file_save()
 
             // Open file and write contents of text view
             std::ofstream ofile(filename);
-            ofile << get_report() << std::endl;
+            ofile << get_report()->get_text() << std::endl;
             ofile.close();
 
             break;
@@ -182,7 +191,7 @@ void MainWindow::on_action_file_save()
 }
 
 // Accesses the text within the Gtk::TextBuffer used by the text view
-std::string MainWindow::get_report()
+Glib::RefPtr<Gtk::TextBuffer> MainWindow::get_report()
 {
-    return mainBox.getBugReportFrame().getBugReportBox().getDetails()->get_text();
+    return mainBox.getBugReportFrame().getBugReportBox().getDetails();
 }
