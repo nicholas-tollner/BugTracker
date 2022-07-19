@@ -195,3 +195,14 @@ Glib::RefPtr<Gtk::TextBuffer> MainWindow::get_report()
 {
     return mainBox.getBugReportFrame().getBugReportBox().getDetails();
 }
+
+//Glib::ustring MainWindow::get_list()
+//{
+//    std::vector<std::string> rows;
+//
+//    mainBox.getBugListFrame().getList():
+////    while (mainBox)
+////    rows.push_back(mainBox.getBugListFrame().getList().get_
+//
+//    return void;
+//}

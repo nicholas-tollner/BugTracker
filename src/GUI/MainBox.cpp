@@ -26,3 +26,8 @@ BugReportFrame& MainBox::getBugReportFrame()
 {
     return bugReportFrame;
 }
+
+BugListFrame& MainBox::getBugListFrame()
+{
+    return bugListFrame;
+}

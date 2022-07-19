@@ -11,7 +11,7 @@ set(SOURCE
         src/GUI/MainBox.cpp
         src/GUI/BugListFrame.cpp
         src/GUI/BugReportFrame.cpp
-        src/GUI/BugReportBox.cpp)
+        src/GUI/BugReportBox.cpp src/GUI/ModelColumns.cpp src/GUI/ModelColumns.h)
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)

@@ -29,6 +29,7 @@ private:
     void on_action_file_import();
     void on_action_file_save();
     Glib::RefPtr<Gtk::TextBuffer> get_report();
+//    Glib::ustring get_list();
 
     // Menubar
     Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;

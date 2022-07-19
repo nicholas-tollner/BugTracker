@@ -17,6 +17,7 @@ public:
     virtual ~MainBox();
 
     BugReportFrame& getBugReportFrame();
+    BugListFrame& getBugListFrame();
 
 private:
     BugListFrame bugListFrame;
