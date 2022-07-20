@@ -6,7 +6,7 @@
 #include "BugListFrame.h"
 #include "MainWindow.h"
 
-BugListFrame::BugListFrame()
+BugListFrame::BugListFrame() : newButton("Add")
 {
     // Setup Frame
     set_shadow_type(Gtk::SHADOW_ETCHED_IN);
@@ -25,7 +25,20 @@ BugListFrame::BugListFrame()
     scrollPane.set_margin_left(10);
     scrollPane.set_margin_right(10);
     scrollPane.add(treeView);
-    add(scrollPane);
+
+    // Setup v_box, h_box
+    v_box.set_orientation(Gtk::ORIENTATION_VERTICAL);
+    h_box.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+    v_box.set_margin_left(10);
+    v_box.set_margin_right(10);
+    v_box.set_margin_top(10);
+    newButton.set_margin_right(10);
+
+    h_box.pack_end(newButton, Gtk::PACK_SHRINK);
+
+    v_box.add(h_box);
+    v_box.add(scrollPane);
+    add(v_box);
 }
 
 BugListFrame::~BugListFrame()
@@ -67,11 +80,11 @@ Gtk::TreeView& BugListFrame::get_tree_view()
 // Clears List Store
 void BugListFrame::clear_list()
 {
-    treeView.collapse_all();
-    refListStore.reset();
     refListStore = Gtk::ListStore::create(m_Columns);
+    treeView.set_model(refListStore);
 }
 
-
-
-
+Gtk::Button &BugListFrame::get_new_button()
+{
+    return newButton;
+}

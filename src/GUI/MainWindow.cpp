@@ -66,10 +66,6 @@ MainWindow::MainWindow() : mainBox(false, 5, Gtk::PACK_SHRINK, 0)
     m_box.add(mainBox);
     add(m_box);
 
-    // Attach signal to selection
-    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
-    refTreeSelection->signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_selection_changed));
-
     show_all_children();
 }
 
@@ -110,6 +106,8 @@ void MainWindow::on_action_file_import()
             std::ifstream infile(dialog.get_filename());
 
             updateList(infile);
+
+            attachSignals();
 
             infile.close();
             break;
@@ -194,11 +192,12 @@ void MainWindow::updateList(std::ifstream& file)
 {
     if (row != nullptr)
     {
+        refTreeSelection.reset();
         mainBox.getBugListFrame().clear_list();
+        attachSignals();
     }
 
     refListStore = mainBox.getBugListFrame().get_list_store();
-    ModelColumns& m_Columns = mainBox.getBugListFrame().get_m_columns();
 
     // Parse file and populate fields
     std::string line;
@@ -266,13 +265,85 @@ void MainWindow::updateList(std::ifstream& file)
  */
 void MainWindow::on_selection_changed()
 {
-    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
-    ModelColumns& m_Columns = mainBox.getBugListFrame().get_m_columns();
-    Gtk::TreeModel::Row row = *(refTreeSelection->get_selected());
+    refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
+    row = *(refTreeSelection->get_selected());
+    printRow(row);
 
     // Clear Gtk::TextBuffer then write to buffer
     get_report()->erase(get_report()->begin(), get_report()->end());
 
     auto itr = get_report()->begin();
     get_report()->insert(itr, row.get_value(m_Columns.text));
+}
+
+/**
+ * Handles saving of individual bug reports
+ */
+void MainWindow::on_action_report_save()
+{
+    refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
+    row = *(refTreeSelection->get_selected());
+
+    row.set_value(m_Columns.text, get_report()->get_text());
+    std::cout << "Bug Report saved" << std::endl;
+}
+
+void MainWindow::on_action_update_mark(int m)
+{
+    refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
+    row = *(refTreeSelection->get_selected());
+
+    switch (m) {
+        case 0:
+        {
+            row.set_value(m_Columns.mark, Glib::ustring("Closed"));
+            break;
+        }
+
+        case 1:
+        {
+            row.set_value(m_Columns.mark, Glib::ustring("Open"));
+            break;
+        }
+
+        case 2:
+        {
+            row.set_value(m_Columns.mark, Glib::ustring("Solved"));
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+void MainWindow::on_action_add_row()
+{
+    auto row_itr = mainBox.getBugListFrame().get_list_store()->append();
+    row_itr--;
+    int new_id = std::stoi(row_itr->get_value(m_Columns.id).data()) + 1;
+    row_itr++;
+    row_itr->set_value(m_Columns.id, Glib::ustring(std::to_string(new_id)));
+    row_itr->set_value(m_Columns.mark, Glib::ustring("Open"));
+}
+
+void MainWindow::attachSignals()
+{
+    // Attach signal to selection
+    refTreeSelection = mainBox.getBugListFrame().get_tree_view().get_selection();
+    refTreeSelection->signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_selection_changed));
+
+    // Attach signals to buttons
+    mainBox.getBugReportFrame().getBugReportBox().get_save_button().signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_action_report_save));
+    mainBox.getBugReportFrame().getBugReportBox().get_close_button().signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &MainWindow::on_action_update_mark), 0));
+    mainBox.getBugReportFrame().getBugReportBox().get_open_button().signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &MainWindow::on_action_update_mark), 1));
+    mainBox.getBugReportFrame().getBugReportBox().get_solve_button().signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &MainWindow::on_action_update_mark), 2));
+    mainBox.getBugListFrame().get_new_button().signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_action_add_row));
+}
+
+void MainWindow::printRow(Gtk::TreeIter itr)
+{
+    int row_id = std::stoi(itr->get_value(m_Columns.id).data());
+
+    std::cout << "Row ID: " << row_id << std::endl;
 }

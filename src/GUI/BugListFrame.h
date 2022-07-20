@@ -10,6 +10,7 @@
 #include <gtkmm/treeview.h>
 #include <gtkmm/treemodel.h>
 #include <gtkmm/listviewtext.h>
+#include <gtkmm/box.h>
 #include "ModelColumns.h"
 
 class BugListFrame : public Gtk::Frame {
@@ -21,10 +22,14 @@ public:
     ModelColumns& get_m_columns();
     Gtk::TreeView& get_tree_view();
     void clear_list();
+    Gtk::Button& get_new_button();
+
 private:
     Gtk::ScrolledWindow scrollPane;
     Gtk::TreeView treeView;
     ModelColumns m_Columns;
+    Gtk::Button newButton;
+    Gtk::Box v_box, h_box;
 
     Glib::RefPtr<Gtk::ListStore> refListStore;
 

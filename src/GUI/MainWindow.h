@@ -26,13 +26,22 @@ private:
     // Child widgets
     MainBox mainBox;
     Gtk::Box m_box;
+    ModelColumns m_Columns;
 
     // Signal handlers
     void on_action_file_import();
     void on_action_file_save();
+    void on_action_report_save();
+    void on_action_update_mark(int m);
+    void on_action_add_row();
+    void attachSignals();
+    void printRow(Gtk::TreeIter itr);
+
     Glib::RefPtr<Gtk::TextBuffer> get_report();
+
     Gtk::TreeModel::Row row;
     Glib::RefPtr<Gtk::ListStore> refListStore;
+    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection;
 
     // Menubar
     Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;

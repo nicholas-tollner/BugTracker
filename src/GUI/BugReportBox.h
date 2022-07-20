@@ -19,11 +19,15 @@ public:
     virtual ~BugReportBox();
 
     Glib::RefPtr<Gtk::TextBuffer> getDetails();
+    Gtk::Button& get_save_button();
+    Gtk::Button& get_solve_button();
+    Gtk::Button& get_close_button();
+    Gtk::Button& get_open_button();
 
 private:
     Gtk::Box v_box, h_box1;
     Gtk::Frame detailsFrame;
-    Gtk::Button closeButton, solveButton, saveButton;
+    Gtk::Button closeButton, solveButton, saveButton, openButton;
     Gtk::ScrolledWindow scrollPane;
     Gtk::TextView textView;
 };
