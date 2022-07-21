@@ -101,7 +101,6 @@ void MainWindow::on_action_file_import()
     {
         case (Gtk::RESPONSE_OK):
         {
-            std::cout << "File selected: " << dialog.get_filename() << std::endl;
             start_flag = false;
 
             std::ifstream infile(dialog.get_filename());
@@ -114,12 +113,10 @@ void MainWindow::on_action_file_import()
 
         case (Gtk::RESPONSE_CANCEL):
         {
-            std::cout << "Cancel clicked" << std::endl;
             break;
         }
 
         default:
-            std::cout << "Something unexpected happened!" << std::endl;
             break;
     }
 }
@@ -133,7 +130,6 @@ void MainWindow::on_action_file_import()
  */
 void MainWindow::on_action_file_save()
 {
-    std::cout << "Save pressed!" << std::endl;
     Gtk::FileChooserDialog dialog("Save", Gtk::FILE_CHOOSER_ACTION_SAVE);
     dialog.set_transient_for(*this);    // Allows window manager to center dialog over main window
 
@@ -150,7 +146,6 @@ void MainWindow::on_action_file_save()
     {
         case (Gtk::RESPONSE_OK):
         {
-            std::cout << "Saving file ... ";
             std::string filename = dialog.get_filename();
 
             // Append .txt extension to filename if it does not already exist
@@ -164,15 +159,12 @@ void MainWindow::on_action_file_save()
 
             int num_rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL (refListStore->get()->gobj()), nullptr);
 
-            std::cout << "\nnum_rows: " << num_rows << std::endl;
             // Set current row to beginning of list
 
             row = start;
 
             for (int i = 0; i < num_rows; i++)
             {
-                std::cout << "i: " << i << std::endl;
-
                 ofile << "##" << std::endl;
                 ofile << row[m_Columns.id] << "\n";
                 ofile << row[m_Columns.title] << "\n";
@@ -190,7 +182,6 @@ void MainWindow::on_action_file_save()
 
             ofile.close();
 
-            std::cout << "done!" << std::endl;
             break;
         }
 
@@ -200,7 +191,6 @@ void MainWindow::on_action_file_save()
         }
 
         default:
-            std::cout << "Something unexpected happened!" << std::endl;
             break;
     }
 }
@@ -414,7 +404,6 @@ void MainWindow::printRow(Gtk::TreeIter itr)
     if (itr != nullptr)
     {
         int row_id = std::stoi(itr->get_value(m_Columns.id).data());
-        std::cout << "Row ID: " << row_id << std::endl;
     }
 
 }

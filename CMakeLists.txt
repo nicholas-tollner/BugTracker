@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(SOURCE
         src/main.cpp
-        src/BugList.cpp
-        src/BugReport.cpp
         src/GUI/MainWindow.cpp
         src/GUI/MainBox.cpp
         src/GUI/BugListFrame.cpp
