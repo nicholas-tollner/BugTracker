@@ -176,8 +176,8 @@ void MainWindow::on_action_file_save()
                 ofile << "##" << std::endl;
                 ofile << row[m_Columns.id] << "\n";
                 ofile << row[m_Columns.title] << "\n";
-                ofile << row[m_Columns.text] << "\n";
                 ofile << row[m_Columns.mark] << "\n";
+                ofile << row[m_Columns.text] << "\n";
 
                 if (i == num_rows - 1)
                 {
