@@ -18,7 +18,6 @@
 class MainWindow : public Gtk::Window {
 public:
     MainWindow();
-    virtual ~MainWindow();
 
     void on_selection_changed();
 
@@ -27,6 +26,7 @@ private:
     MainBox mainBox;
     Gtk::Box m_box;
     ModelColumns m_Columns;
+    bool start_flag = false;
 
     bool attached = false;
 
@@ -42,6 +42,7 @@ private:
     Glib::RefPtr<Gtk::TextBuffer> get_report();
 
     Gtk::TreeModel::Row row;
+    Gtk::TreeModel::Row start;
     Glib::RefPtr<Gtk::ListStore> *refListStore = nullptr;
     Gtk::TreeView* refTreePtr = nullptr;
 

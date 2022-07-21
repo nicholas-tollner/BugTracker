@@ -74,12 +74,6 @@ MainWindow::MainWindow() : mainBox(false, 5, Gtk::PACK_SHRINK, 0)
     refTreePtr = mainBox.getBugListFrame().get_tree_view();
 
     show_all_children();
-    std::cout << "MainWindow constructor" << std::endl;
-}
-
-MainWindow::~MainWindow()
-{
-
 }
 
 /**
@@ -88,7 +82,6 @@ MainWindow::~MainWindow()
  */
 void MainWindow::on_action_file_import()
 {
-    std::cout << "Import pressed!" << std::endl;
     Gtk::FileChooserDialog dialog("Import", Gtk::FILE_CHOOSER_ACTION_OPEN);
     dialog.set_transient_for(*this);    // Allows window manager to center dialog over main window
 
@@ -108,8 +101,8 @@ void MainWindow::on_action_file_import()
     {
         case (Gtk::RESPONSE_OK):
         {
-            std::cout << "Select clicked" << "\n";
             std::cout << "File selected: " << dialog.get_filename() << std::endl;
+            start_flag = false;
 
             std::ifstream infile(dialog.get_filename());
 
@@ -157,9 +150,7 @@ void MainWindow::on_action_file_save()
     {
         case (Gtk::RESPONSE_OK):
         {
-            std::cout << "Save clicked" << "\n";
-            std::cout << "File selected: " << dialog.get_filename() << std::endl;
-
+            std::cout << "Saving file ... ";
             std::string filename = dialog.get_filename();
 
             // Append .txt extension to filename if it does not already exist
@@ -170,15 +161,41 @@ void MainWindow::on_action_file_save()
 
             // Open file and write contents of text view
             std::ofstream ofile(filename);
-            ofile << get_report()->get_text() << std::endl;
+
+            int num_rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL (refListStore->get()->gobj()), nullptr);
+
+            std::cout << "\nnum_rows: " << num_rows << std::endl;
+            // Set current row to beginning of list
+
+            row = start;
+
+            for (int i = 0; i < num_rows; i++)
+            {
+                std::cout << "i: " << i << std::endl;
+
+                ofile << "##" << std::endl;
+                ofile << row[m_Columns.id] << "\n";
+                ofile << row[m_Columns.title] << "\n";
+                ofile << row[m_Columns.text] << "\n";
+                ofile << row[m_Columns.mark] << "\n";
+
+                if (i == num_rows - 1)
+                {
+                    ofile << "==" << std::endl;
+                    break;
+                }
+
+                row++;
+            }
+
             ofile.close();
 
+            std::cout << "done!" << std::endl;
             break;
         }
 
         case (Gtk::RESPONSE_CANCEL):
         {
-            std::cout << "Cancel clicked" << std::endl;
             break;
         }
 
@@ -194,17 +211,19 @@ Glib::RefPtr<Gtk::TextBuffer> MainWindow::get_report()
     return mainBox.getBugReportFrame().getBugReportBox().getDetails();
 }
 
+/**
+ * Handles updating list store
+ * @param file
+ */
 void MainWindow::updateList(std::ifstream& file)
 {
-    std::cout << "Updating List" << std::endl;
-    std::cout << "row: " << *row << std::endl;
-
-    if (row != nullptr)
+    // Clear list if it already contains entries
+    if (row)
     {
-        std::cout << "row not nullptr" << std::endl;
         mainBox.getBugListFrame().clear_list();
     }
 
+    // Attach signals to buttons if not already attached
     if (!attached)
     {
         attachSignals();
@@ -214,8 +233,6 @@ void MainWindow::updateList(std::ifstream& file)
     std::string line;
     std::string report;
     int count = 0;
-
-    std::cout << "Parsing file" << std::endl;
 
     while(std::getline(file, line))
     {
@@ -234,6 +251,15 @@ void MainWindow::updateList(std::ifstream& file)
             }
 
             row = *(refListStore->get()->append());
+
+            // Save a reference to the start of the list
+            if (!start_flag)
+            {
+                start_flag = true;
+                start = *row;
+
+            }
+
             count++;
             continue;
         }
@@ -278,8 +304,6 @@ void MainWindow::updateList(std::ifstream& file)
  */
 void MainWindow::on_selection_changed()
 {
-    std::cout << "Selection changed" << std::endl;
-
     row = *(refTreePtr->get_selection()->get_selected());
 
     // Clear report displayed in textView
@@ -287,14 +311,7 @@ void MainWindow::on_selection_changed()
 
     if (row)
     {
-        std::cout << "Printing row" << std::endl;
         printRow(row);
-
-
-        std::cout << "Erasing buffer" << std::endl;
-
-        // Clear Gtk::TextBuffer then write to buffer
-
 
         // Update textView with new report
         auto itr = get_report()->begin();
@@ -309,71 +326,77 @@ void MainWindow::on_action_report_save()
 {
     row = *(refTreePtr->get_selection()->get_selected());
 
-    row.set_value(m_Columns.text, get_report()->get_text());
-    std::cout << "Bug Report saved" << std::endl;
+    if (row)
+    {
+        row.set_value(m_Columns.text, get_report()->get_text());
+    }
 }
 
 void MainWindow::on_action_update_mark(int m)
 {
-    std::cout << "Updating mark" << std::endl;
     row = *(refTreePtr->get_selection()->get_selected());
 
-    switch (m) {
-        case 0:
-        {
-            row.set_value(m_Columns.mark, Glib::ustring("Closed"));
-            break;
-        }
+    if (row)
+    {
+        switch (m) {
+            case 0:
+            {
+                row.set_value(m_Columns.mark, Glib::ustring("Closed"));
+                break;
+            }
 
-        case 1:
-        {
-            row.set_value(m_Columns.mark, Glib::ustring("Open"));
-            break;
-        }
+            case 1:
+            {
+                row.set_value(m_Columns.mark, Glib::ustring("Open"));
+                break;
+            }
 
-        case 2:
-        {
-            row.set_value(m_Columns.mark, Glib::ustring("Solved"));
-            break;
-        }
+            case 2:
+            {
+                row.set_value(m_Columns.mark, Glib::ustring("Solved"));
+                break;
+            }
 
-        default:
-            break;
+            default:
+                break;
+        }
     }
 }
 
 // Handles appending new rows to listStore
 void MainWindow::on_action_add_row()
 {
-    std::cout << "Adding row" << std::endl;
+    // Append new row
+    row = *(refListStore->get()->append());
+
+    if (!start_flag)
+    {
+        start_flag = true;
+        start = *row;
+    }
 
     int new_id = 0;
-
-    // Append new row
-    auto row_itr = refListStore->get()->append();
 
     // Count number of rows in listStore and set new_id accordingly
     int num_rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL (refListStore->get()->gobj()), nullptr);
     if (num_rows > 1)
     {
-        new_id = std::stoi((--row_itr)->get_value(m_Columns.id).data()) + 1;
-        row_itr++;
+        new_id = std::stoi((--row)->get_value(m_Columns.id).data()) + 1;
+        row++;
     } else
     {
         // Signals are attached to remaining buttons here if num_rows <= 1
         attachSignals();
     }
 
-
     // Set new row values
-    row_itr->set_value(m_Columns.id, Glib::ustring(std::to_string(new_id)));
-    row_itr->set_value(m_Columns.mark, Glib::ustring("Open"));
+    row->set_value(m_Columns.id, Glib::ustring(std::to_string(new_id)));
+    row->set_value(m_Columns.mark, Glib::ustring("Open"));
 }
 
 // Handles attachment of signals to buttons
 void MainWindow::attachSignals()
 {
-    std::cout << "Attaching signals" << std::endl;
     // Attach signal to selection
     refTreePtr->get_selection()->signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_selection_changed));
 

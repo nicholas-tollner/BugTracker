@@ -19,6 +19,9 @@ BugReportBox::BugReportBox() : closeButton("Mark Closed"), solveButton("Mark Sol
 
     openButton.set_margin_right(10);
     closeButton.set_margin_right(10);
+    renameButton.set_margin_right(10);
+    renameButton.set_margin_right(10);
+    deleteButton.set_margin_right(10);
 
     // Setup scrollPane, textView
     scrollPane.set_size_request(-1, 300);
@@ -45,7 +48,6 @@ BugReportBox::BugReportBox() : closeButton("Mark Closed"), solveButton("Mark Sol
     detailsFrame.add(scrollPane);
 
     v_box.add(h_box1);
-
     add(v_box);
     add(detailsFrame);
 }

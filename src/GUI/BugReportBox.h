@@ -27,7 +27,7 @@ public:
 private:
     Gtk::Box v_box, h_box1;
     Gtk::Frame detailsFrame;
-    Gtk::Button closeButton, solveButton, saveButton, openButton;
+    Gtk::Button closeButton, solveButton, saveButton, openButton, deleteButton, renameButton;
     Gtk::ScrolledWindow scrollPane;
     Gtk::TextView textView;
 };

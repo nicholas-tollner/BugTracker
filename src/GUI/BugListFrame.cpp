@@ -52,24 +52,45 @@ void BugListFrame::setupListView()
 
     treeView.set_model(refListStore);
     treeView.append_column("ID", m_Columns.id);
-    treeView.append_column("Title", m_Columns.title);
+    treeView.append_column_editable("Title", m_Columns.title);
     int col_count = treeView.append_column("Mark", m_Columns.mark);
 
     // Expand columns to take up available space
     for (int i = 0; i < col_count; i++)
     {
         treeView.get_column(i)->set_expand(true);
+        int width = 0;
+
+        switch(i)
+        {
+            case 0:
+            {
+                width = 100;
+                break;
+            }
+
+            case 1:
+            {
+                width = 500;
+                break;
+            }
+
+            case 2:
+            {
+                width = 160;
+                break;
+            }
+
+            default:
+                break;
+        }
+        treeView.get_column(i)->set_fixed_width(width);
     }
 }
 
 Glib::RefPtr<Gtk::ListStore>* BugListFrame::get_list_store()
 {
     return &refListStore;
-}
-
-ModelColumns& BugListFrame::get_m_columns()
-{
-    return m_Columns;
 }
 
 Gtk::TreeView* BugListFrame::get_tree_view()
@@ -88,4 +109,3 @@ Gtk::Button &BugListFrame::get_new_button()
 {
     return newButton;
 }
-
