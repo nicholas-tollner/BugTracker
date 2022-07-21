@@ -62,9 +62,9 @@ void BugListFrame::setupListView()
     }
 }
 
-Glib::RefPtr<Gtk::ListStore> BugListFrame::get_list_store()
+Glib::RefPtr<Gtk::ListStore>* BugListFrame::get_list_store()
 {
-    return refListStore;
+    return &refListStore;
 }
 
 ModelColumns& BugListFrame::get_m_columns()
@@ -72,9 +72,9 @@ ModelColumns& BugListFrame::get_m_columns()
     return m_Columns;
 }
 
-Gtk::TreeView& BugListFrame::get_tree_view()
+Gtk::TreeView* BugListFrame::get_tree_view()
 {
-    return treeView;
+    return &treeView;
 }
 
 // Clears List Store
@@ -88,3 +88,4 @@ Gtk::Button &BugListFrame::get_new_button()
 {
     return newButton;
 }
+

@@ -28,6 +28,8 @@ private:
     Gtk::Box m_box;
     ModelColumns m_Columns;
 
+    bool attached = false;
+
     // Signal handlers
     void on_action_file_import();
     void on_action_file_save();
@@ -40,8 +42,8 @@ private:
     Glib::RefPtr<Gtk::TextBuffer> get_report();
 
     Gtk::TreeModel::Row row;
-    Glib::RefPtr<Gtk::ListStore> refListStore;
-    Glib::RefPtr<Gtk::TreeSelection> refTreeSelection;
+    Glib::RefPtr<Gtk::ListStore> *refListStore = nullptr;
+    Gtk::TreeView* refTreePtr = nullptr;
 
     // Menubar
     Glib::RefPtr<Gio::SimpleActionGroup> m_refActionGroup;

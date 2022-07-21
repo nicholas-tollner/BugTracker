@@ -18,12 +18,11 @@ public:
     BugListFrame();
     virtual ~BugListFrame();
 
-    Glib::RefPtr<Gtk::ListStore> get_list_store();
+    Glib::RefPtr<Gtk::ListStore>* get_list_store();
     ModelColumns& get_m_columns();
-    Gtk::TreeView& get_tree_view();
+    Gtk::TreeView* get_tree_view();
     void clear_list();
     Gtk::Button& get_new_button();
-
 private:
     Gtk::ScrolledWindow scrollPane;
     Gtk::TreeView treeView;
