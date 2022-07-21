@@ -2,12 +2,12 @@
 46	4213	6798302884658086	CMakeFiles/Windows_GUI_Application.dir/src/MainBox.cpp.obj	702162f74d70c3ee
 13	2376	6798303291545424	CMakeFiles/Windows_GUI_Application.dir/src/MainWindow.cpp.obj	98d1742d53cc92b2
 25	1504	6798312871086190	CMakeFiles/Windows_GUI_Application.dir/src/GUI/BugReport.cpp.obj	cf66078d3265a031
-0	299	6800993518148905	build.ninja	eaac85dee0f4c3d
+0	299	6800996076482043	build.ninja	eaac85dee0f4c3d
 28	4925	6800840945836921	CMakeFiles/Windows_GUI_Application.dir/src/GUI/BugReportBox.cpp.obj	b78409cdd4147e19
 39	425	6798526488749320	CMakeFiles/Windows_GUI_Application.dir/src/BugList.cpp.obj	2802608789eaec06
 60	1306	6798526497804530	CMakeFiles/Windows_GUI_Application.dir/src/BugReport.cpp.obj	5c2a56b5a393dfad
 9	5677	6800971221358014	CMakeFiles/Windows_GUI_Application.dir/src/main.cpp.obj	e62c7cd35e222535
-3577	3957	6800978968742570	Windows_GUI_Application.exe	6edf3b01105ba063
+2849	3176	6800994021376766	Windows_GUI_Application.exe	9d4d9eb50307da2a
 25	4785	6797709923168655	CMakeFiles/Windows_GUI_Application.dir/src/TopPanel.cpp.obj	a0c6d11449e829cd
 77	4180	6798302883928104	CMakeFiles/Windows_GUI_Application.dir/src/BugReportFrame.cpp.obj	21b808cbbb7e4a56
 4180	6563	6798302908348082	CMakeFiles/Windows_GUI_Application.dir/src/BugListFrame.cpp.obj	f76bfcdbd8971ab0
@@ -18,5 +18,6 @@
 24	3996	6798387431530473	CMakeFiles/Windows_GUI_Application.dir/src/GUI/TopBox.cpp.obj	42200a05464e05df
 33	4950	6800840946246938	CMakeFiles/Windows_GUI_Application.dir/src/GUI/BugReportFrame.cpp.obj	e6cc23241ee2f553
 24	5007	6800948943538155	CMakeFiles/Windows_GUI_Application.dir/src/GUI/MainBox.cpp.obj	62d717bf112f2505
-12	3577	6800978965002714	CMakeFiles/Windows_GUI_Application.dir/src/GUI/MainWindow.cpp.obj	6398bcb95e6e9d5e
+8	2848	6800994018134685	CMakeFiles/Windows_GUI_Application.dir/src/GUI/MainWindow.cpp.obj	6398bcb95e6e9d5e
 36	1421	6799229580751421	CMakeFiles/Windows_GUI_Application.dir/src/GUI/ModelColumns.cpp.obj	5974d1d5dae2c17e
+9	395	6800996109634579	Windows_GUI_Application.exe	be8b01777e8d0251
